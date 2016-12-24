@@ -104,6 +104,28 @@
   </div>
 
 <script>
+  let shiftDown = false;
+  let startIdx = -1;
+
+  window.addEventListener('keydown', e => shiftDown = e.shiftKey);
+  window.addEventListener('keyup', e => shiftDown = e.shiftKey);
+
+  const checks = document.querySelectorAll('input[type="checkbox"]');
+  const checksArr = Array.prototype.slice.call(checks);
+
+  checksArr.forEach(x =>
+    x.addEventListener('mouseup', e => {
+      if (shiftDown) {
+        const stopIdx = checksArr.findIndex(a => a === x);
+        checksArr.slice(Math.min(startIdx, stopIdx)+1,
+                        Math.max(startIdx, stopIdx))
+          .forEach(x => x.checked = true);
+      }
+      else {
+        startIdx = checksArr.findIndex(a => a === x);
+      }
+    }
+  ));
 </script>
 </body>
 </html>

@@ -17,6 +17,41 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+const cities = [];
+fetch(endpoint)
+  .then(resp => resp.json())
+  .then(data => cities.push(...data));
+
+function caseISearch(a, b) {
+  return a.toLowerCase().includes(b.toLowerCase());
+}
+
+function findMatches(q) {
+  var tList = cities.filter(x => caseISearch(x.city, q) || caseISearch(x.state, q));
+  var re = new RegExp(`(${q})`, 'gi');
+  return tList.map(x => {
+    return '<span class="name">' +
+        x.city.replace(re, '<span class="hl">$1</span>') + ', ' +
+        x.state.replace(re, '<span class="hl">$1</span>') + '</span>' +
+        '<span class="population">' +
+        parseInt(x.population).toLocaleString() +
+        '</span>';
+  });
+}
+
+function update(matches) {
+  const tSugg = document.querySelector('.suggestions');
+  tSugg.innerHTML = '';
+  matches.forEach(function(e) {
+    var li = document.createElement('li');
+    li.innerHTML = e;
+    tSugg.appendChild(li);
+  });
+}
+
+const tSearch = document.querySelector('.search');
+tSearch.addEventListener('keyup', e => update(findMatches(tSearch.value)));
+
 </script>
   </body>
 </html>

@@ -66,7 +66,23 @@
   </style>
 
   <script>
+    updateSec = function() {
+      const tD = new Date();
+      console.log(tD);
+      const tH = ((tD.getHours()%12)/12.*360) + 90;
+      const tM = (tD.getMinutes()/60.*360) + 90;
+      const tS = (tD.getSeconds()/60.*360) + 90;
+      const hourHand = document.querySelector('div.hand.hour-hand');
+      hourHand.style = `transform: rotate(${tH}deg); transform-origin: right;`;
 
+      const minuteHand = document.querySelector('div.hand.min-hand');
+      minuteHand.style = `transform: rotate(${tM}deg); transform-origin: right;`;
+
+      const secHand = document.querySelector('div.hand.second-hand');
+      secHand.style = `transform: rotate(${tS}deg); transform-origin: right;`;
+    }
+
+    window.setInterval(updateSec, 1000);
 
   </script>
 </body>
