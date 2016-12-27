@@ -7,6 +7,23 @@
 </head>
 <body>
 <script>
+let tCur = -1;
+const tMap = [65, 66, 67];
+function handleKeyup(e) {
+  if (e.keyCode == tMap[tCur + 1]) {
+    tCur += 1;
+    if (tCur == tMap.length-1) {
+      console.log('KONAMI');
+    }
+  }
+  else {
+    tCur = -1;
+  }
+
+  console.log(tCur);
+}
+
+window.addEventListener('keyup', handleKeyup);
 </script>
 </body>
 </html>
